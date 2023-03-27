@@ -70,6 +70,29 @@ function register(e) {
   return false;
 }
 
+//email sent from RPA Quickscan
+function emailsend() {
+  // Fetch data from html
+  data = {
+    email: getValue("email")
+
+  };
+  // Submit data to API
+
+  api("email", "POST", data).then((res) => {
+    if (res.message == "success") {
+    
+      // Save the received JWT in a cookie
+      console.log("het is gelukt")
+      getUsers();
+      return false
+    } else {
+      alert("you left something empty");
+      return falseS
+    }
+  });
+  return false;
+}
 
 //after login you can load in the users stuff
 function getUsers() {
@@ -95,8 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
   connectButton("my-button1", Userinfo);
   connectButton("my-button", login);
   connectButton("my-buttonRegisteren", createPost);
-
-
+  connectButton("start-scan", emailsend);
 });
 
 const submitHandler = async(event) => {
