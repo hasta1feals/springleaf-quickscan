@@ -152,6 +152,26 @@ app.delete('/users/:id', (req, res) => {
   });
 });
 
+app.post('/email', (req, res) => {
+  // get user data from request body
+  const { email} = req.body;
+
+
+    // create a new user in the database
+    db.run(
+      'INSERT INTO email (email) VALUES (?)',
+      [email],
+      function (err) {
+        if (err) {
+          return res.status(500).json({ error: 'Error creating user' });
+        }
+        res.json({ message: 'success' });
+      }
+    );
+  });
+
+
+
 // start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
