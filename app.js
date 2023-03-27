@@ -33,10 +33,7 @@ app.get('/users', (req, res) => {
 });
 
 
-
-
 const secret = process.env.SECRET_KEY;
-
 
 
 app.post('/login', (req, res) => {
