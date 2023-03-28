@@ -21,7 +21,12 @@ function login() {
   });
 }
 
+function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
 function emailVal() {
+
   // Fetch data from html
   data = {
     email: getValue("email")
@@ -112,10 +117,10 @@ function getUsers() {
 
 
 function Userinfo() {
-
+      
   api("secure").then((res) => {
     if (res.message == "success") {
-      console.log(res.decoded.user)
+      console.log(res.decoded.email.email, res.decoded.email.id)
     }
 
   });
@@ -127,7 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
   connectButton("my-button", login);
   connectButton("my-buttonRegisteren", createPost);
   connectButton("start-scan", emailVal);
-  connectButton("start-scan", emailVal);
+
+
 
 
 
