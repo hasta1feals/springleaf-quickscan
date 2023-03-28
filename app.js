@@ -65,6 +65,28 @@ app.post('/login', (req, res) => {
   });
 });
 
+app.post('/emailToken', (req, res) => {
+const email = req.body.email;
+
+const qry = 'SELECT * FROM `email` WHERE `email` = ?'
+db.get(qry, [email], (err, email) => {
+  if (err) {
+    return res.status(500).json({ message: 'Error while fetching email from the database' });
+  }
+  if (!email) {
+    return res.status(401).json({ message: 'Invalid email' });
+  }
+
+  // Create JWT
+  const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
+  return res.status(200).json({ token: ` ${token}`, message: 'success' });
+
+});
+
+})
+
+
+
 
 //gets you the token where the users info is stored
 app.get('/secure', (req, res) => {
@@ -121,6 +143,33 @@ app.post('/register', (req, res) => {
 });
 
 
+app.post('/email', (req, res) => {
+  // get user data from request body
+  const { email } = req.body;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+ // Validate the email address
+ if (!emailRegex.test(email)) {
+  res.status(400).json({ message: 'Invalid email address.' });
+  return;
+}
+    // create a new user in the database
+    db.run(
+      'INSERT INTO email (email) VALUES (?)',
+      [email],
+      function (err) {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ message: 'Error inserting email address into database' });
+        } else {
+          console.log(`Inserted email address ${email} into database`);
+          res.status(201).json({ message: 'Email address received and stored.' });
+        
+          
+        }
+      });
+    });
 
 
 app.put('/users/:id', (req, res) => {

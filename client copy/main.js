@@ -15,12 +15,43 @@ function login() {
       console.log("het is gelukt")
       console.log(res.token)
       getUsers();
-      // showPage("dashboardPage");
     } else {
       alert("Credentials are incorrect");
     }
   });
 }
+
+function emailVal() {
+  // Fetch data from html
+  data = {
+    email: getValue("email")
+   
+  };
+  // Submit data to API
+
+  api("email", "POST", data).then((res) => {
+    if (res.message == "Email address received and stored.") {
+      // Save the received JWT in a cookie
+      
+      console.log("het is gelukt")
+    }
+  });
+
+
+  api("emailToken", "POST", data).then((res) => {
+    if (res.message == "success") {
+      // Save the received JWT in a cookie
+      setCookie("token", res.token, 365);
+      console.log("het is gelukt")
+      console.log(res.token)
+      getUsers();
+    } 
+  });
+
+
+ 
+}
+
 
 
 async function createPost() {
@@ -95,6 +126,10 @@ document.addEventListener("DOMContentLoaded", function () {
   connectButton("my-button1", Userinfo);
   connectButton("my-button", login);
   connectButton("my-buttonRegisteren", createPost);
+  connectButton("start-scan", emailVal);
+  connectButton("start-scan", emailVal);
+
+
 
 
 });
