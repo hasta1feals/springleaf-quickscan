@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/question.css">
+    <script src="script.js"></script>
     <title>Vraag</title>
 </head>
 
@@ -23,22 +24,25 @@
 
         </nav>
     </header>
-    <div class="container">
-        <h1>Vraag 1: Lorem ipsum ?</h1>
+    
+    <div class="container" id="scan">
+        <h1 id="question_title">Vraag 1: Lorem ipsum ?</h1>
         <!-- <input id="antwoord" type="text" placeholder="antwoord"></input><br> -->
-        <p>Please select your age:</p>
-        <input type="radio" id="age1" name="age" value="30">
-        <label for="age1">0 - 30</label><br>
-        <input type="radio" id="age2" name="age" value="60">
-        <label for="age2">31 - 60</label><br>
-        <input type="radio" id="age3" name="age" value="100">
-        <label for="age3">61 - 100</label><br><br>
+        
+        <input type="radio" id="choice1" name="answer" class="answer">
+        <label for="choice1" id="choice1_text">Answer</label><br>
+        <input type="radio" id="choice2" name="answer"  class="answer" >
+        <label for="choice2" id="choice2_text">Answer</label><br>
+        <input type="radio" id="choice3" name="answer"  class="answer">
+        <label for="choice3" id="choice3_text">Answer</label><br>
+        <input type="radio" id="choice4" name="answer"  class="answer">
+        <label for="choice4" id="choice4_text">Answer</label><br><br>
         
         <button type="button" id="next">></button><br>
 <br>
-        <div class="volgorde">
+        <!-- <div class="volgorde">
             <button id="rij">1</button><button id="rij">2</button><button id="rij">3</button><button id="rij">4</button><button id="rij">5</button>
-        </div>
+        </div> -->
     </div>
 
 </body>
