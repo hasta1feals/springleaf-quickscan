@@ -1,8 +1,6 @@
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
-const progressText = document.getElementById("progressText");
-const scoreText = document.getElementById("score");
-const progressBarFull = document.getElementById("progressBarFull");
+
 let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
@@ -11,20 +9,20 @@ let availableQuesions = [];
 
 let questions = [
     {
-   
+
         question: 'Is het proces handmatig en repetitief',
         choice1: 'Ja',
         choice2: 'Nee',
-       
+
     },
     {
-      
+
         question: "Is het proces op regels gebaseerd?",
         choice1: "Ja",
         choice2: "Grotendeels wel",
         choice3: "Grotendeels niet",
         choice4: "Nee",
-       
+
     },
     {
         question: "Gaat het proces of de applicaties die worden gebruikt in de komende 6 maanden drastisch wijzigen?",
@@ -32,69 +30,107 @@ let questions = [
         choice2: "Nee",
     },
     {
-        
+
         question: "Hoe zou je die input voor het proces typeren?",
         choice1: "Digitaal en gestructureerd",
         choice2: "Digitaal en niet gestructureerd",
         choice3: "Niet digitaal en gestructureerd",
         choice4: "Niet digitaal en ongestructureerd",
-        
-        
+
+
     },
     {
-        
+
         question: "Kan de input gestructureerd worden?",
         choice1: "Ja",
         choice2: "Nee",
-        
+
     }
-  
+
 ];
 
 // Start Quickscan
 startQuickscan = () => {
-  questionCounter = 0;
-  score = 100;
-  availableQuesions = [...questions];
-  getNewQuestion();
+    questionCounter = 0;
+    score = 100;
+    availableQuesions = [...questions];
+    getNewQuestion();
 
-  }
+}
 
-// Display Next Random Question and Answers
 getNewQuestion = () => {
-  if (availableQuesions.length === 0 || questionCounter >= questions.length) {
+    if (availableQuesions.length === 0 || questionCounter >= questions.length) {
 
+        //go to the end page
+        return window.location.assign("../client/eindscherm.html");
+    }
 
-    //go to the end page
-    return window.location.assign("../html/end.html");
-  }
-  questionCounter++;
-  progressText.innerText = `Question ${questionCounter}/${questions.length}`;
+    currentQuestion = availableQuesions[questionCounter];
+    question.innerText = currentQuestion.question;
 
-  //Update the progress bar
-  progressBarFull.style.width = `${(questionCounter / questions.length) * 100}%`;
+    const choice1 = document.querySelector("#choice1");
+    const choice2 = document.querySelector("#choice2");
+    const choice3 = document.querySelector("#choice3");
+    const choice4 = document.querySelector("#choice4");
 
-  currentQuestion = availableQuesions[questionCounter];
-  question.innerText = currentQuestion.question;
+    const option1 = document.getElementById("antwoord-1");
+    const option2 = document.getElementById("antwoord-2");
+    const option3 = document.getElementById("antwoord-3");
+    const option4 = document.getElementById("antwoord-4");
 
-  // Get Answers
-  choices.forEach(choice => {
-    const number = choice.dataset["number"];
-    choice.innerText = currentQuestion["choice" + number];
-  });
+    if (currentQuestion.hasOwnProperty("choice1")) {
+        option1.style.display = "inline";
+        choice1.innerHTML = '<p data-number="1">' + currentQuestion.choice1 + '</p>';
+    } else {
+        option1.style.display = "none";
+    }
 
-  availableQuesions.splice(questionIndex, 1);
-  acceptingAnswers = true;
+    if (currentQuestion.hasOwnProperty("choice2")) {
+        option2.style.display = "inline";
+        choice2.innerHTML = '<p data-number="2">' + currentQuestion.choice2 + '</p>';
+    } else {
+        option2.style.display = "none";
+    }
+
+    if (currentQuestion.hasOwnProperty("choice3")) {
+        option3.style.display = "inline";
+        choice3.innerHTML = '<p data-number="3">' + currentQuestion.choice3 + '</p>';
+    } else {
+        option3.style.display = "none";
+    }
+
+    if (currentQuestion.hasOwnProperty("choice4")) {
+        option4.style.display = "inline";
+        choice4.innerHTML = '<p data-number="4">' + currentQuestion.choice4 + '</p>';
+    } else {
+        option4.style.display = "none";
+    }
+
+    acceptingAnswers = true;
 };
+
 
 //Get User's Choice
 choices.forEach(choice => {
-  choice.addEventListener("click", e => {
-   
-    getNewQuestion();
-  });
-});
+    choice.addEventListener("click", e => {
+        if (!acceptingAnswers) return;
 
+        acceptingAnswers = false;
+        const selectedChoice = e.target;
+        const selectedAnswer = selectedChoice.dataset.number;
+
+        // Check if answer is correct and update score if necessary
+        if (selectedAnswer == 1) {
+            // If the user selected the correct answer
+        } else {
+            // If the user selected the wrong answer
+        }
+
+        // Move on to the next question
+        questionCounter++;
+        getNewQuestion();
+    });
+});
 
 
 startQuickscan();
