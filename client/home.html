@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/home.css">
-    <script type="text/javascript" src="js/scan.js"></script>
-    <script type="text/javascript" src="js/questions.js"></script>
     <title>Springleaf</title>
 </head>
 
@@ -72,25 +70,27 @@
             <div class="container-question" id="questions">
                 <div class="page" id="page-questions">
 
-                    <h1 id="question_title">Vraag 1: Lorem ipsum ?</h1>
-                    <input id="antwoord" type="text" placeholder="antwoord"></input><br>
+                    <div class="question_title"></div>
+                    <!-- <input id="antwoord" type="text" placeholder="antwoord"></input><br> -->
 
-                    <input type="radio" id="choice1" name="answer" class="answer">
-                    <label for="choice1" id="choice1_text">Answer</label><br>
-                    <input type="radio" id="choice2" name="answer" class="answer">
-                    <label for="choice2" id="choice2_text">Answer</label><br>
-                    <input type="radio" id="choice3" name="answer" class="answer">
-                    <label for="choice3" id="choice3_text">Answer</label><br>
-                    <input type="radio" id="choice4" name="answer" class="answer">
-                    <label for="choice4" id="choice4_text">Answer</label><br><br>
+                    <div id="choice1"></div>
+                    <div id="choice2"></div>
+                    <div id="choice3"></div>
+                    <div id="choice4"></div>
 
-
-
-                    <button class="button-start" id="questions-button">></button><br>
+                    <!-- <button  -->
+                    <button class="button-start" id="next_btn">></button><br>
                     <br>
                 </div>
             </div>
+
+            <div class="page" id="page-result">
+                <button class="button-start" id="questions-button">></button><br>
+
+                </div>
+
     </main>
+
 
     <script type="text/javascript" src="js/scan.js"></script>
     <script type="text/javascript" src="js/questions.js"></script>

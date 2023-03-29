@@ -1,4 +1,4 @@
-// console.log('i clicked the start button');
+// import "js/questions.js";
 function addButtonActions(){
     var startButton = document.getElementById('button-start');
     var infoButton = document.getElementById('info-button');
@@ -15,17 +15,19 @@ function addButtonActions(){
 });
 
 questionsButton.addEventListener('click', function(){
-    showLandingPage();  
+    // showLandingPage();  
 });
 }
 function hideAllPages(){
     var landingPage = document.getElementById('page-landing');
     var startPage = document.getElementById('page-start');
     var questionsPage = document.getElementById('page-questions');
+    var resultPage = document.getElementById('page-result');
 
     landingPage.style.display = 'none';
     startPage.style.display = 'none';
     questionsPage.style.display = 'none';
+    resultPage.style.display = 'none';
 }
 
 
@@ -51,12 +53,23 @@ function showStartPage() {
 
 function showQuestionPage() {
     var page = document.getElementById('page-questions');
-
+    loadScan(0);
     hideAllPages();
-
+    
     page.style.display = 'block';
 
     console.info('Je bent nu op de QuestionPage');
+
+}
+
+function showResultPage() {
+    var page = document.getElementById('page-result');
+    
+    hideAllPages();
+    
+    page.style.display = 'block';
+
+    console.info('Je bent nu op de Result Page');
 
 }
 
