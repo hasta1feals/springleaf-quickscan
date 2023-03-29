@@ -49,3 +49,26 @@
     margin-bottom: 0;
     margin-left: 0;
 }
+.eindtext-msg{
+    font-size: 24px;
+    margin-top: 100px;
+}
+.white{
+    color: white;
+}
+.terug-button{
+    /* margin-top: 50px; */
+    font-size: large;
+    margin: 100px auto 10px auto;
+    width: 209px;
+    height: 34px;
+    background-color: #F5A83F;
+    color: white !important;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(245, 168, 63, 1)
+    
+}
+.terug-button:hover{
+    background-color: #f09618;
+    cursor:pointer;
+}
