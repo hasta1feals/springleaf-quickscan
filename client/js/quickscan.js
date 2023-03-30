@@ -60,7 +60,7 @@ startQuickscan = () => {
 
 getNewQuestion = () => {
     if (availableQuesions.length === 0 || questionCounter >= questions.length) {
-
+        console.log(results)
         //go to the end page
         return window.location.assign("../client/eindscherm.html");
     }
@@ -109,7 +109,7 @@ getNewQuestion = () => {
     acceptingAnswers = true;
 };
 
-
+let results = [];
 //Get User's Choice
 choices.forEach(choice => {
     choice.addEventListener("click", e => {
@@ -117,20 +117,27 @@ choices.forEach(choice => {
 
         acceptingAnswers = false;
         const selectedChoice = e.target;
-        const selectedAnswer = selectedChoice.dataset.number;
+        const selectedAnswer = selectedChoice.textContent; // get the text of the selected choice
+        console.log(selectedAnswer);
 
-        // Check if answer is correct and update score if necessary
-        if (selectedAnswer == 1) {
-            // If the user selected the correct answer
-        } else {
-            // If the user selected the wrong answer
-        }
+        // store the question and selected answer in a variable
+        const questionText = currentQuestion.question;
+        const userResponse = selectedAnswer;
+
+     
+        // Save question and selected answer
+        const result = {
+            question: questionText,
+            selectedAnswer: userResponse
+        };
+        results.push(result);
 
         // Move on to the next question
         questionCounter++;
         getNewQuestion();
     });
 });
+
 
 
 startQuickscan();

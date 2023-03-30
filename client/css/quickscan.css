@@ -1,74 +1,123 @@
 /* QUESTIONS */
-#game{
-    text-align: center;
-    height: 450px;
-    /* width: 75%; */
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+#game {
+  text-align: center;
+  height: 520px;
+ 
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
-#question{
-    font-size: 3.4em;
-    margin-bottom: 80px;
+
+#question {
+  font-size: 3.4em;
+  margin-bottom: 80px;
 }
-.answers{
-    display: flex;
-    flex-direction: column;
-    padding-left: 20%;
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20%;
 }
 
 .choice-container {
-    text-align: left;
-    display: flex;
-    margin-bottom: 0.5rem;
-    width: 80%;
-    font-size: 1.8rem;
-    border: 0.1rem solid rgb(86, 165, 235, 0.25);
-    background-color: white;
+  text-align: left;
+  display: flex;
+  margin-bottom: 0.5rem;
+  width: 80%;
+  font-size: 1.8rem;
+  border: 0.1rem solid rgb(86, 165, 235, 0.25);
+  background-color: white;
 
-  }
-  
-  .choice-container:hover {
-    cursor: pointer;
-    box-shadow: 0 0.4rem 1.4rem 0 rgba(245, 168, 63, 1);
-    transform: translateY(-0.1rem);
-    transition: transform 150ms;
-  }
-  
-  .choice-prefix {
-    padding: 1.5rem 2.5rem;
-    background-color: #f49b15;
-    color: white;
-  }
-  
-  .choice-text {
-    padding: 1.5rem;
-    width: 100%;
-  }
-  
-  #swirl {
-    position: relative;
-    margin-bottom: 0;
-    margin-left: 0;
 }
-.eindtext-msg{
-    font-size: 24px;
-    margin-top: 100px;
+
+.choice-container:hover {
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.4rem 0 rgba(245, 168, 63, 1);
+  transform: translateY(-0.1rem);
+  transition: transform 150ms;
 }
-.white{
-    color: white;
+
+.choice-prefix {
+  padding: 1.5rem 2.5rem;
+  background-color: #f49b15;
+  color: white;
 }
-.terug-button{
-    /* margin-top: 50px; */
-    font-size: large;
-    margin: 100px auto 10px auto;
-    width: 209px;
-    height: 34px;
-    background-color: #F5A83F;
-    color: white !important;
-    border: none;
-    box-shadow: 0px 4px 4px rgba(245, 168, 63, 1)
-    
+
+.choice-text {
+  padding: 1.5rem;
+  width: 100%;
 }
-.terug-button:hover{
-    background-color: #f09618;
-    cursor:pointer;
+
+.choice-text.selected {
+  background-color: #f49b15;
+  color: white;
+}
+
+#swirl {
+  position: relative;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+.eindtext-msg {
+  font-size: 24px;
+  margin-top: 100px;
+}
+
+.white {
+  color: white;
+}
+.button-line{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+margin-top: 420px;
+display: flex;
+justify-content: center;
+gap: 10px;
+}
+
+#front-button{
+  font-size: large;
+  display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 1.5rem 2.5rem;
+gap: 10px;
+background-color: #F5A83F;
+color: white;
+border: none;
+}
+#back-button{
+  font-size: large;
+
+  display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 1.5rem 2.5rem;
+gap: 10px;
+background-color: #F5A83F;
+color: white;
+
+border: none;
+
+}
+.terug-button:hover {
+  background-color: #f09618;
+  cursor: pointer;
+}
+#front-button:hover, #back-button:hover{
+  background-color: #f09618;
+  cursor: pointer;
+}
+.terug-button {
+  /* margin-top: 50px; */
+  font-size: large;
+  margin: 100px auto 10px auto;
+  width: 209px;
+  height: 34px;
+  background-color: #F5A83F;
+  color: white !important;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(245, 168, 63, 1)
 }
