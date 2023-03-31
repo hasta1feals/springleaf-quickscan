@@ -85,7 +85,31 @@ db.get(qry, [email], (err, email) => {
 
 })
 
+app.post('/qa', (req, res) => {  
+  const question1 = req.body.question1;
+  const selectedAnswer1 = req.body.selectedAnswer1;
+  const question2 = req.body.question2;
+  const selectedAnswer2 = req.body.selectedAnswer2;
+  const question3 = req.body.question3;
+  const selectedAnswer3 = req.body.selectedAnswer3;
+  const question4 = req.body.question4;
+  const selectedAnswer4 = req.body.selectedAnswer4;
+  const question5 = req.body.question5;
+  const selectedAnswer5 = req.body.selectedAnswer5;
+  const email_id = req.body.email_id;
 
+  db.run(
+    'INSERT INTO QA (question1, selectedAnswer1, question2, selectedAnswer2, question3, selectedAnswer3, question4, selectedAnswer4, question5, selectedAnswer5, email_id) VALUES (?, ?, ?,?,?,?,?,?,?,?,?)',
+    [question1, selectedAnswer1, question2, selectedAnswer2, question3, selectedAnswer3, question4, selectedAnswer4, question5, selectedAnswer5, email_id],
+    function (err) {
+      if (err) {
+        return res.status(500).json({ error: 'Error creating QA' });
+      }
+      res.json({ message: 'success' });
+    }
+  );
+
+})
 
 
 //gets you the token where the users info is stored

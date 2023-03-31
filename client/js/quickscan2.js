@@ -53,7 +53,32 @@ startQuickscan = () => {
     availableQuesions = [...questions];
     getNewQuestion();
 
+    getUsers().then(() => {
+        console.log(myArray.toString());
+      });
+   
+    
+
+
 }
+
+
+var myArray = [];
+function getUsers() {
+   
+    data = {
+        token: getCookie("token")
+    };
+
+ return   api("secure", "GET",data).then((res) => {
+        
+        if (res.message == "success") {
+            // Save the received JWT in a cookie
+            myArray.push(res.decoded.email.id);
+        }
+    });
+}
+
 
 getNewQuestion = () => {
     const selectedChoice = document.querySelector(".choice-text.selected");
@@ -61,7 +86,37 @@ getNewQuestion = () => {
         selectedChoice.classList.remove("selected");
     }
     if (availableQuesions.length === 0 || questionCounter >= questions.length) {
-        console.log(results)
+
+        // console.log(results[0].question);
+        // console.log(results[0].selectedAnswer);
+
+         // Fetch data from html
+            data = {
+                question1: results[0].question,
+                selectedAnswer1: results[0].selectedAnswer,
+                question2: results[1].question,
+                selectedAnswer2: results[1].selectedAnswer,
+                question3: results[2].question,
+                selectedAnswer3: results[2].selectedAnswer,
+                question4: results[3].question,
+                selectedAnswer4: results[3].selectedAnswer,
+                question5: results[4].question,
+                selectedAnswer5: results[4].selectedAnswer,
+                email_id: myArray.toString()
+
+
+            };
+            // Submit data to API
+            api("qa", "POST", data).then((res) => {
+                if (res.message == "success") {
+                    // Save the received JWT in a cookie
+
+                    console.log("het is gelukt")
+                }
+            });
+       
+
+
         //go to the end page
         // return window.location.assign("../client/eindscherm.html");
     }
@@ -109,11 +164,11 @@ getNewQuestion = () => {
 
     const backButton = document.getElementById("back-button");
     if (questionCounter === 0) {
-    nextButton.disabled = true;
+        nextButton.disabled = true;
 
-      backButton.style.display = "none";
+        backButton.style.display = "none";
     } else {
-      backButton.style.display = "block";
+        backButton.style.display = "block";
     }
 };
 
@@ -151,12 +206,12 @@ const selectAnswer = choice => {
 //Get User's Choice
 choices.forEach(choice => {
     choice.addEventListener("click", () => selectAnswer(choice));
-  });
+});
 
 
 const nextButton = document.getElementById("front-button");
 nextButton.addEventListener("click", () => {
-   
+
 
     questionCounter++;
     console.log(questionCounter)
@@ -169,79 +224,116 @@ nextButton.addEventListener("click", () => {
 
 const backButton = document.getElementById("back-button");
 backButton.addEventListener("click", () => {
-  // Decrement the question counter
-  questionCounter--;
+    // Decrement the question counter
+    questionCounter--;
 
-  // Get the previous question
-  currentQuestion = availableQuesions[questionCounter];
+    // Get the previous question
+    currentQuestion = availableQuesions[questionCounter];
 
-  // Update the UI with the previous question
-  question.innerText = currentQuestion.question;
-  const option1 = document.getElementById("antwoord-1");
-  const option2 = document.getElementById("antwoord-2");
-  const option3 = document.getElementById("antwoord-3");
-  const option4 = document.getElementById("antwoord-4");
+    // Update the UI with the previous question
+    question.innerText = currentQuestion.question;
+    const option1 = document.getElementById("antwoord-1");
+    const option2 = document.getElementById("antwoord-2");
+    const option3 = document.getElementById("antwoord-3");
+    const option4 = document.getElementById("antwoord-4");
 
-  if (currentQuestion.hasOwnProperty("choice1")) {
-      option1.style.display = "inline";
-      choice1.innerHTML = '<p data-number="1">' + currentQuestion.choice1 + '</p>';
-  } else {
-      option1.style.display = "none";
-  }
-
-  if (currentQuestion.hasOwnProperty("choice2")) {
-      option2.style.display = "inline";
-      choice2.innerHTML = '<p data-number="2">' + currentQuestion.choice2 + '</p>';
-  } else {
-      option2.style.display = "none";
-  }
-
-  if (currentQuestion.hasOwnProperty("choice3")) {
-      option3.style.display = "inline";
-      choice3.innerHTML = '<p data-number="3">' + currentQuestion.choice3 + '</p>';
-  } else {
-      option3.style.display = "none";
-  }
-
-  if (currentQuestion.hasOwnProperty("choice4")) {
-      option4.style.display = "inline";
-      choice4.innerHTML = '<p data-number="4">' + currentQuestion.choice4 + '</p>';
-  } else {
-      option4.style.display = "none";
-  }
-
-  // Disable the back button if we're at the first question
-  if (questionCounter === 0) {
-    nextButton.disabled = true;
-
-      backButton.style.display = "none";
+    if (currentQuestion.hasOwnProperty("choice1")) {
+        option1.style.display = "inline";
+        choice1.innerHTML = '<p data-number="1">' + currentQuestion.choice1 + '</p>';
     } else {
-      backButton.style.display = "block";
+        option1.style.display = "none";
     }
-console.log(questionCounter)
-  // Enable the next button
-  nextButton.disabled = false;
-// Look up the selected answer for this question in the results array
-const questionText = currentQuestion.question;
-const resultIndex = results.findIndex(
-  (result) => result.question === questionText
-);
-if (resultIndex !== -1) {
 
-  // If the question is already in the results array, select the corresponding choice
-  const selectedChoice = choices.find(
-    (choice) => choice.textContent === results[resultIndex].selectedAnswer
-  );
-  if (selectedChoice) {
-    // Only remove "selected" class from other choices if the selected choice has changed
-    if (!selectedChoice.classList.contains("selected")) {
-      choices.forEach((choice) => {
-        choice.classList.remove("selected");
-      });
+    if (currentQuestion.hasOwnProperty("choice2")) {
+        option2.style.display = "inline";
+        choice2.innerHTML = '<p data-number="2">' + currentQuestion.choice2 + '</p>';
+    } else {
+        option2.style.display = "none";
     }
-    selectedChoice.classList.add("selected");
-  }
-}
+
+    if (currentQuestion.hasOwnProperty("choice3")) {
+        option3.style.display = "inline";
+        choice3.innerHTML = '<p data-number="3">' + currentQuestion.choice3 + '</p>';
+    } else {
+        option3.style.display = "none";
+    }
+
+    if (currentQuestion.hasOwnProperty("choice4")) {
+        option4.style.display = "inline";
+        choice4.innerHTML = '<p data-number="4">' + currentQuestion.choice4 + '</p>';
+    } else {
+        option4.style.display = "none";
+    }
+
+    // Disable the back button if we're at the first question
+    if (questionCounter === 0) {
+        nextButton.disabled = true;
+
+        backButton.style.display = "none";
+    } else {
+        backButton.style.display = "block";
+    }
+    console.log(questionCounter)
+    // Enable the next button
+    nextButton.disabled = false;
+    // Look up the selected answer for this question in the results array
+    const questionText = currentQuestion.question;
+    const resultIndex = results.findIndex(
+        (result) => result.question === questionText
+    );
+    if (resultIndex !== -1) {
+
+        // If the question is already in the results array, select the corresponding choice
+        const selectedChoice = choices.find(
+            (choice) => choice.textContent === results[resultIndex].selectedAnswer
+        );
+        if (selectedChoice) {
+            // Only remove "selected" class from other choices if the selected choice has changed
+            if (!selectedChoice.classList.contains("selected")) {
+                choices.forEach((choice) => {
+                    choice.classList.remove("selected");
+                });
+            }
+            selectedChoice.classList.add("selected");
+        }
+    }
 });
+
+
+
+//api function to get infro from the server to frontend
+function api(endpoint, method = "GET", data = {}) {
+    const API = "http://localhost:3000/";
+    return fetch(API + endpoint, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getCookie("token"),
+        },
+        body: method == "GET" ? null : JSON.stringify(data),
+    }).then((res) => res.json());
+}
+
+//get cookie function
+function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+
+
+
 
 startQuickscan();
