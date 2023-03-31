@@ -101,7 +101,48 @@ function getUsers() {
 
 
 
+function emailVal() {
 
+  // Fetch data from html
+  data = {
+    email: getValue("email")
+   
+  };
+  // Submit data to API
+
+  api("email", "POST", data).then((res) => {
+    if (res.message == "Email address received and stored.") {
+      // Save the received JWT in a cookie
+      
+      console.log("het is gelukt")
+    }
+  });
+
+
+  api("emailToken", "POST", data).then((res) => {
+    if (res.message == "success") {
+      // Save the received JWT in a cookie
+      setCookie("token", res.token, 365);
+      console.log("het is gelukt")
+      console.log(res.token)
+      getUsers();
+    } 
+  });
+
+  
+ 
+}
+
+//een delay gevoegd zodat de cookies geladen kunne worden
+const button = document.querySelector('#start-scan');
+
+// Add a click event listener to the button
+button.addEventListener('click', () => {
+  // After 5 seconds, navigate to the new page
+  setTimeout(() => {
+    window.location.href = 'quickscan.html';
+  }, 500);
+});
 
 function Userinfo() {
 
@@ -118,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
   connectButton("my-button1", Userinfo);
   connectButton("my-button", login);
   connectButton("my-buttonRegisteren", createPost);
-  connectButton("start-scan", emailsend);
+  connectButton("start-scan", emailVal);
 });
 
 const submitHandler = async(event) => {
