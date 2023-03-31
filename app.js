@@ -66,26 +66,26 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/emailToken', (req, res) => {
-const email = req.body.email;
+  const email = req.body.email;
 
-const qry = 'SELECT * FROM `email` WHERE `email` = ?'
-db.get(qry, [email], (err, email) => {
-  if (err) {
-    return res.status(500).json({ message: 'Error while fetching email from the database' });
-  }
-  if (!email) {
-    return res.status(401).json({ message: 'Invalid email' });
-  }
+  const qry = 'SELECT * FROM `email` WHERE `email` = ?'
+  db.get(qry, [email], (err, email) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error while fetching email from the database' });
+    }
+    if (!email) {
+      return res.status(401).json({ message: 'Invalid email' });
+    }
 
-  // Create JWT
-  const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
-  return res.status(200).json({ token: ` ${token}`, message: 'success' });
+    // Create JWT
+    const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
+    return res.status(200).json({ token: ` ${token}`, message: 'success' });
 
-});
+  });
 
 })
 
-app.post('/qa', (req, res) => {  
+app.post('/qa', (req, res) => {
   const question1 = req.body.question1;
   const selectedAnswer1 = req.body.selectedAnswer1;
   const question2 = req.body.question2;
@@ -173,27 +173,49 @@ app.post('/email', (req, res) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
- // Validate the email address
- if (!emailRegex.test(email)) {
-  res.status(400).json({ message: 'Invalid email address.' });
-  return;
-}
-    // create a new user in the database
-    db.run(
-      'INSERT INTO email (email) VALUES (?)',
-      [email],
-      function (err) {
+  // Validate the email address
+  if (!emailRegex.test(email)) {
+    res.status(400).json({ message: 'Invalid email address.' });
+    return;
+  }
+  const qry = 'Select id from email Where email = ?'
+  db.get(qry, [email], (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error while fetching user from the database' });
+    }
+    console.log(user)
+    if (!user) {
+      let params = [
+        req.body.email
+      ];
+      let qry2 = `INSERT INTO "email"
+      (email)
+      VALUES (?)`;
+      db.run(qry2, params, function (err) {
         if (err) {
           console.log(err);
           res.status(500).json({ message: 'Error inserting email address into database' });
         } else {
           console.log(`Inserted email address ${email} into database`);
           res.status(201).json({ message: 'Email address received and stored.' });
-        
-          
+
+
         }
+
       });
-    });
+
+    }
+    else {
+        // Create JWT
+    const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
+    return res.status(200).json({ token: ` ${token}`, message: 'success' });
+        
+      
+    }
+
+  });
+
+});
 
 
 app.put('/users/:id', (req, res) => {

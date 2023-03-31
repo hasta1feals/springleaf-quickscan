@@ -118,7 +118,7 @@ getNewQuestion = () => {
 
 
         //go to the end page
-        // return window.location.assign("../client/eindscherm.html");
+        return window.location.assign("../eindscherm.html");
     }
 
     currentQuestion = availableQuesions[questionCounter];

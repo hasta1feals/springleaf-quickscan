@@ -24,7 +24,7 @@ function login() {
 
 
 async function createPost() {
- const data = {
+  const data = {
     password: getValue("password"),
     username: getValue("title1"),
     name: getValue("name")
@@ -34,10 +34,10 @@ async function createPost() {
   api("register", "POST", data).then((res) => {
     if (res.message == "success") {
       // Save the received JWT in a cookie
-     
+
       console.log("het is gelukt")
-    
-  
+
+
     } else {
       alert("Credentials are incorrect");
     }
@@ -57,7 +57,7 @@ function register(e) {
 
   api("register", "POST", data).then((res) => {
     if (res.message == "success") {
-    
+
       // Save the received JWT in a cookie
       console.log("het is gelukt")
       getUsers();
@@ -71,28 +71,28 @@ function register(e) {
 }
 
 //email sent from RPA Quickscan
-function emailsend() {
-  // Fetch data from html
-  data = {
-    email: getValue("email")
+// function emailsend() {
+//   // Fetch data from html
+//   data = {
+//     email: getValue("email")
 
-  };
-  // Submit data to API
+//   };
+//   // Submit data to API
 
-  api("email", "POST", data).then((res) => {
-    if (res.message == "success") {
-    
-      // Save the received JWT in a cookie
-      console.log("het is gelukt")
-      getUsers();
-      return false
-    } else {
-      alert("you left something empty");
-      return falseS
-    }
-  });
-  return false;
-}
+//   api("email", "POST", data).then((res) => {
+//     if (res.message == "success") {
+
+//       // Save the received JWT in a cookie
+//       console.log("het is gelukt")
+//       getUsers();
+//       return false
+//     } else {
+//       alert("you left something empty");
+//       return falseS
+//     }
+//   });
+//   return false;
+// }
 
 //after login you can load in the users stuff
 function getUsers() {
@@ -102,21 +102,44 @@ function getUsers() {
 
 
 function emailVal() {
+  email = getValue("email");
+  let errors = [];
+
+  if (email) {
+    var regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    var valideer = email.match(regex);
+    if (!valideer) {
+      errors.push("email moet tenminste een @ hebben");
+    }
+  } else {
+    errors.push("Geen email ingevuld")
+  }
+  if (errors.length) {
+    alert(errors)
+    
+    return;
+  }else{
+    console.log("het is geluktpa")
+    setTimeout(() => {
+      window.location.href = 'quickscan.html';
+    }, 500);
+  }
 
   // Fetch data from html
   data = {
     email: getValue("email")
-   
+
   };
   // Submit data to API
 
   api("email", "POST", data).then((res) => {
     if (res.message == "Email address received and stored.") {
       // Save the received JWT in a cookie
-      
+
       console.log("het is gelukt")
     }
-  });
+  }
+  );
 
 
   api("emailToken", "POST", data).then((res) => {
@@ -126,11 +149,11 @@ function emailVal() {
       console.log("het is gelukt")
       console.log(res.token)
       getUsers();
-    } 
+    }
   });
 
-  
- 
+
+
 }
 
 //een delay gevoegd zodat de cookies gelade kunnen worden
@@ -138,10 +161,11 @@ const button = document.querySelector('#start-scan');
 
 // Add a click event listener to the button
 button.addEventListener('click', () => {
+
   // After 5 seconds, navigate to the new page
-  setTimeout(() => {
-    window.location.href = 'quickscan.html';
-  }, 500);
+  // setTimeout(() => {
+  //   // window.location.href = 'quickscan.html';
+  // }, 500);
 });
 
 function Userinfo() {
@@ -162,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
   connectButton("start-scan", emailVal);
 });
 
-const submitHandler = async(event) => {
+const submitHandler = async (event) => {
   event.preventDefault()
   console.log("submit")
 }
