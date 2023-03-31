@@ -133,7 +133,7 @@ function emailVal() {
  
 }
 
-//een delay gevoegd zodat de cookies geladen kunnen worden
+//een delay gevoegd zodat de cookies gelade kunnen worden
 const button = document.querySelector('#start-scan');
 
 // Add a click event listener to the button
