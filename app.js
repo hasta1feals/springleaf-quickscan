@@ -1,91 +1,81 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const express = require("express");
+const sqlite3 = require("sqlite3").verbose();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const app = express();
-const db = new sqlite3.Database('database.db');
-const bcrypt = require('bcrypt');
+const db = new sqlite3.Database("database.db");
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const cors = require('cors')
-app.use(cors())
+const cors = require("cors");
+app.use(cors());
 app.use(express.json());
 
-
 // define routes
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-
-
-
-
-
-
-app.get('/users', (req, res) => {
-  db.all('SELECT * FROM users', (err, rows) => {
+app.get("/users", (req, res) => {
+  db.all("SELECT * FROM users", (err, rows) => {
     if (err) {
-      res.status(500).send({ error: 'Error fetching users' });
+      res.status(500).send({ error: "Error fetching users" });
     } else {
       res.send(rows);
     }
   });
 });
 
-
-
-
 const secret = process.env.SECRET_KEY;
 
-
-
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   // Get data from request
   const username = req.body.username;
   const password = req.body.password;
 
   // Get user from database
-  const qry = 'SELECT * FROM `users` WHERE `username` = ?'
+  const qry = "SELECT * FROM `users` WHERE `username` = ?";
   db.get(qry, [username], (err, user) => {
     if (err) {
-      return res.status(500).json({ message: 'Error while fetching user from the database' });
+      return res
+        .status(500)
+        .json({ message: "Error while fetching user from the database" });
     }
     if (!user) {
-      return res.status(401).json({ message: 'Invalid username' });
+      return res.status(401).json({ message: "Invalid username" });
     }
 
     // Check if password is correct
     if (!bcrypt.compareSync(password, user.password)) {
-      return res.status(401).json({ message: 'Invalid password' });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     // Create JWT
-    const token = jwt.sign({ user }, secret, { expiresIn: '1h' });
-    return res.status(200).json({ token: ` ${token}`, message: 'success' });
+    const token = jwt.sign({ user }, secret, { expiresIn: "1h" });
+    return res.status(200).json({ token: ` ${token}`, message: "success" });
   });
 });
 
-app.post('/emailToken', (req, res) => {
+app.post("/emailToken", (req, res) => {
   const email = req.body.email;
 
-  const qry = 'SELECT * FROM `email` WHERE `email` = ?'
+  const qry = "SELECT * FROM `email` WHERE `email` = ?";
   db.get(qry, [email], (err, email) => {
     if (err) {
-      return res.status(500).json({ message: 'Error while fetching email from the database' });
+      return res
+        .status(500)
+        .json({ message: "Error while fetching email from the database" });
     }
     if (!email) {
-      return res.status(401).json({ message: 'Invalid email' });
+      return res.status(401).json({ message: "Invalid email" });
     }
 
     // Create JWT
-    const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
-    return res.status(200).json({ token: ` ${token}`, message: 'success' });
-
+    const token = jwt.sign({ email }, secret, { expiresIn: "1h" });
+    return res.status(200).json({ token: ` ${token}`, message: "success" });
   });
+});
 
-})
-
-app.post('/qa', (req, res) => {
+app.post("/qa", (req, res) => {
   const question1 = req.body.question1;
   const selectedAnswer1 = req.body.selectedAnswer1;
   const question2 = req.body.question2;
@@ -99,32 +89,42 @@ app.post('/qa', (req, res) => {
   const email_id = req.body.email_id;
 
   db.run(
-    'INSERT INTO QA (question1, selectedAnswer1, question2, selectedAnswer2, question3, selectedAnswer3, question4, selectedAnswer4, question5, selectedAnswer5, email_id) VALUES (?, ?, ?,?,?,?,?,?,?,?,?)',
-    [question1, selectedAnswer1, question2, selectedAnswer2, question3, selectedAnswer3, question4, selectedAnswer4, question5, selectedAnswer5, email_id],
+    "INSERT INTO QA (question1, selectedAnswer1, question2, selectedAnswer2, question3, selectedAnswer3, question4, selectedAnswer4, question5, selectedAnswer5, email_id) VALUES (?, ?, ?,?,?,?,?,?,?,?,?)",
+    [
+      question1,
+      selectedAnswer1,
+      question2,
+      selectedAnswer2,
+      question3,
+      selectedAnswer3,
+      question4,
+      selectedAnswer4,
+      question5,
+      selectedAnswer5,
+      email_id,
+    ],
     function (err) {
       if (err) {
-        return res.status(500).json({ error: 'Error creating QA' });
+        return res.status(500).json({ error: "Error creating QA" });
       }
-      res.json({ message: 'success' });
+      res.json({ message: "success" });
     }
   );
-
-})
-
+});
 
 //gets you the token where the users info is stored
-app.get('/secure', (req, res) => {
+app.get("/secure", (req, res) => {
   // get token from request
-  let token = req.headers['authorization'];
+  let token = req.headers["authorization"];
   if (!token) {
     return res.status(401).json({
-      message: 'Unauthorized, token is missing'
+      message: "Unauthorized, token is missing",
     });
   }
 
-  if (!token.startsWith('Bearer ')) {
+  if (!token.startsWith("Bearer ")) {
     return res.status(401).json({
-      message: 'Unauthorized, token is invalid'
+      message: "Unauthorized, token is invalid",
     });
   }
   // Removing Bearer from the token
@@ -132,42 +132,37 @@ app.get('/secure', (req, res) => {
   // verify token
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
-      res.status(401).send({ error: 'Invalid token' });
+      res.status(401).send({ error: "Invalid token" });
     } else {
-
-      res.json({ message: 'success', decoded });
+      res.json({ message: "success", decoded });
     }
   });
 });
 
-
-
-
-app.post('/register', (req, res) => {
+app.post("/register", (req, res) => {
   // get user data from request body
   const { username, password, name } = req.body;
 
   // Hash the password
   bcrypt.hash(password, saltRounds, function (err, hashedPassword) {
     if (err) {
-      return res.status(500).json({ error: 'Error hashing the password' });
+      return res.status(500).json({ error: "Error hashing the password" });
     }
     // create a new user in the database
     db.run(
-      'INSERT INTO users (username, password, name) VALUES (?, ?, ?)',
+      "INSERT INTO users (username, password, name) VALUES (?, ?, ?)",
       [username, hashedPassword, name],
       function (err) {
         if (err) {
-          return res.status(500).json({ error: 'Error creating user' });
+          return res.status(500).json({ error: "Error creating user" });
         }
-        res.json({ message: 'success' });
+        res.json({ message: "success" });
       }
     );
   });
 });
 
-
-app.post('/email', (req, res) => {
+app.post("/email", (req, res) => {
   // get user data from request body
   const { email } = req.body;
 
@@ -175,58 +170,52 @@ app.post('/email', (req, res) => {
 
   // Validate the email address
   if (!emailRegex.test(email)) {
-    res.status(400).json({ message: 'Invalid email address.' });
+    res.status(400).json({ message: "Invalid email address." });
     return;
   }
-  const qry = 'Select id from email Where email = ?'
+  const qry = "Select id from email Where email = ?";
   db.get(qry, [email], (err, user) => {
     if (err) {
-      return res.status(500).json({ message: 'Error while fetching user from the database' });
+      return res
+        .status(500)
+        .json({ message: "Error while fetching user from the database" });
     }
-    console.log(user)
+    console.log(user);
     if (!user) {
-      let params = [
-        req.body.email
-      ];
+      let params = [req.body.email];
       let qry2 = `INSERT INTO "email"
       (email)
       VALUES (?)`;
       db.run(qry2, params, function (err) {
         if (err) {
           console.log(err);
-          res.status(500).json({ message: 'Error inserting email address into database' });
+          res
+            .status(500)
+            .json({ message: "Error inserting email address into database" });
         } else {
           console.log(`Inserted email address ${email} into database`);
-          res.status(201).json({ message: 'Email address received and stored.' });
-
-
+          res
+            .status(201)
+            .json({ message: "Email address received and stored." });
         }
-
       });
-
+    } else {
+      // Create JWT
+      const token = jwt.sign({ email }, secret, { expiresIn: "1h" });
+      return res.status(200).json({ token: ` ${token}`, message: "success" });
     }
-    else {
-        // Create JWT
-    const token = jwt.sign({ email }, secret, { expiresIn: '1h' });
-    return res.status(200).json({ token: ` ${token}`, message: 'success' });
-        
-      
-    }
-
   });
-
 });
 
-
-app.put('/users/:id', (req, res) => {
+app.put("/users/:id", (req, res) => {
   const { name, email } = req.body;
   const { id } = req.params;
   db.run(
-    'UPDATE users SET name = ?, email = ? WHERE id = ?',
+    "UPDATE users SET name = ?, email = ? WHERE id = ?",
     [name, email, id],
     function (err) {
       if (err) {
-        res.status(500).send({ error: 'Error updating user' });
+        res.status(500).send({ error: "Error updating user" });
       } else {
         res.send({ changes: this.changes });
       }
@@ -234,16 +223,11 @@ app.put('/users/:id', (req, res) => {
   );
 });
 
-
-
-
-
-
-app.delete('/users/:id', (req, res) => {
+app.delete("/users/:id", (req, res) => {
   const { id } = req.params;
-  db.run('DELETE FROM users WHERE id = ?', [id], function (err) {
+  db.run("DELETE FROM users WHERE id = ?", [id], function (err) {
     if (err) {
-      res.status(500).send({ error: 'Error deleting user' });
+      res.status(500).send({ error: "Error deleting user" });
     } else {
       res.send({ changes: this.changes });
     }
@@ -258,6 +242,9 @@ app.listen(port, () => {
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
