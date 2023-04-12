@@ -14,7 +14,7 @@
 }
 
 #email {
-    border-left: #f49b15 solid;
+    border-left: #1C5F8F solid;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -34,8 +34,8 @@
 }
 
 #start-scan{
-    background-color: #f49b15;
-    border-color: #f49b15;
+    background-color: #1C5F8F;
+    border-color: #1C5F8F;
     padding: 1rem;
     /* border-radius: 3px; */
     color: white;
@@ -60,10 +60,10 @@
     user-select: none;
     background-image: none;
     border: 4px solid transparent;
-    text-shadow: #f49b15 10px 10px 10px;
+    text-shadow: #1C5F8F 10px 10px 10px;
     width: 140px;
 }
 
 #start-scan:hover{
-    background-color:#8b5300 ;
+    background-color:#10354f ;
 }

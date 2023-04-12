@@ -30,14 +30,15 @@
 
 .choice-container:hover {
   cursor: pointer;
-  box-shadow: 0 0.4rem 1.4rem 0 rgba(245, 168, 63, 1);
+  box-shadow: 0 0.4rem 1.4rem 0 rgba(28, 95, 143, 1);
   transform: translateY(-0.1rem);
   transition: transform 150ms;
+  border: none;
 }
 
 .choice-prefix {
   padding: 1.5rem 2.5rem;
-  background-color: #f49b15;
+  background-color: #1C5F8F;
   color: white;
 }
 
@@ -45,12 +46,13 @@
   padding: 1.5rem;
   width: 100%;
 }
-
-.choice-text.selected {
-  background-color: #f49b15;
-  color: white;
+p.choice-text.selected > p{
+  color: #ffffff;
 }
-
+.choice-text.selected{
+  background-color: #1C5F8F;
+  color: #ffffff;
+}
 #swirl {
   position: relative;
   margin-bottom: 0;
@@ -84,7 +86,7 @@ flex-direction: row;
 align-items: flex-start;
 padding: 1.5rem 2.5rem;
 gap: 10px;
-background-color: #F5A83F;
+background-color: #1C5F8F;
 color: white;
 border: none;
 }
@@ -96,18 +98,18 @@ flex-direction: row;
 align-items: flex-start;
 padding: 1.5rem 2.5rem;
 gap: 10px;
-background-color: #F5A83F;
+background-color: #1C5F8F;
 color: white;
 
 border: none;
 
 }
 .terug-button:hover {
-  background-color: #f09618;
+  background-color: #10354f;
   cursor: pointer;
 }
 #front-button:hover, #back-button:hover{
-  background-color: #f09618;
+  background-color: #10354f;
   cursor: pointer;
 }
 .terug-button {
@@ -116,8 +118,8 @@ border: none;
   margin: 100px auto 10px auto;
   width: 209px;
   height: 34px;
-  background-color: #F5A83F;
+  background-color: #1C5F8F;
   color: white !important;
   border: none;
-  box-shadow: 0px 4px 4px rgba(245, 168, 63, 1)
+  box-shadow: 0px 4px 4px rgba(28, 95, 143, 1);
 }
