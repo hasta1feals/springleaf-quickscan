@@ -14,16 +14,18 @@
 }
 
 #email {
-    border-left: #1C5F8F solid;
-    padding: 12px 20px;
-    margin: 8px 0;
     box-sizing: border-box;
-    border-top: grey 0.1px solid;
-    border-right:grey 0.1px solid; 
-    border-bottom:grey 0.1px solid;
-    margin-top: 4%;
-    width: 30%;
-    height: 60px;
+    padding: 10px 20px;
+    width: 25%;    
+    height: 54px;
+    background: #FFFFFF;
+    border: 1px solid #C1BBBB;
+    font-size: 14px;
+    color: #1C5F8F;
+
+}
+#email:focus-within{
+    border-left: #1C5F8F solid 4px;
 
 }
 input::placeholder{
