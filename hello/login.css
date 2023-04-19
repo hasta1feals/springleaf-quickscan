@@ -28,6 +28,7 @@ div {
     position: absolute;
     left: 0px;
     width: 60%;
+    height: 30%;
 }
 
 .right-half {
@@ -127,7 +128,7 @@ input::placeholder{
     float:right;
 }
 .buttonline{
-    margin-top: 50px;
+    margin-top: -100px;
     /* padding-left: 15px;
     padding-right: 5px; */
 }
