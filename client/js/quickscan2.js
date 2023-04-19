@@ -7,7 +7,7 @@ let availableQuesions = [];
 let results = [];
 let questions = [
   {
-    question: "Is het proces handmatig en repetitief",
+    question: "Is het proces handmatig en repetitief?",
     choice1: "Ja",
     choice2: "Nee",
   },
@@ -97,7 +97,7 @@ getNewQuestion = () => {
 
     //go to the end page
 
-    return window.location.assign("../eindscherm.html");
+    return window.location.assign("../summary.html");
   }
 
   currentQuestion = availableQuesions[questionCounter];
