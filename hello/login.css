@@ -5,6 +5,7 @@
     max-height: 100%;
     max-width: 100%;
     font-family: 'roboto';
+    font-family: 'roboto';
 }
 
 section {
@@ -65,7 +66,7 @@ div {
     /* padding-left: 62px; */
     width: 100%;
     color: #1C5F8F;
-    font-family: 'roboto';
+   
     font-style: normal;
     font-weight: 00;
     font-size: 42px;
@@ -128,7 +129,7 @@ input::placeholder{
     float:right;
 }
 .buttonline{
-    margin-top: -100px;
+    margin-top: -140px;
     /* padding-left: 15px;
     padding-right: 5px; */
 }
