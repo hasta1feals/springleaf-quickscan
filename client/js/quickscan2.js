@@ -96,6 +96,7 @@ getNewQuestion = () => {
     });
 
     //go to the end page
+
     return window.location.assign("../eindscherm.html");
   }
 
