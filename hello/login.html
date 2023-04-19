@@ -11,26 +11,26 @@
     <div class="left-half">
         <div class="login-form">
         <h1 class="hoofdtekst">Iedere dag waardevoller werken met Springleaf</h1>
-        <form class="form-login">
+        <div class="form-login">
         <p class="welkom">Welkom terug! Log in op uw account.</p>
         
         <div class="form-group">
         <label class="label-email"> Email address</label><br>
-        <input class="email" type="text" class="form-control" name="email" placeholder="Voorbeeld@email.com"  />
+        <input id="email1" class="email" type="text" class="form-control" name="email" placeholder="Voorbeeld@email.com"  />
         </div>
         <div class="form-group">
         <label class="Wachtwoord">Wachtwoord</label><br>
-        <input type="password" class="form-control" name="Wachtwoord" placeholder="****************"  /><br>
+        <input type="password" id="password1" class="form-control" name="Wachtwoord" placeholder="****************"  /><br>
         </div>
         <div class="bottomline">
         <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label class="rememberme" for="rememberMe">Remember me</label> 
         <a href="" class="float-right">Wachtwoord vergeten?</a> 
       </div> 
       <div class="buttonline">
-          <button class="login-button">Login</button>
-          <!-- <button class="float-right">Login</button> -->
+          <button id="loginButton" class="login-button">Login</button>
+         
       </div>  
-      </form>
+      </div>
     </div>
 </div>
     <div class="right-half">
@@ -38,4 +38,5 @@
       <img class="fiets-position" src="img/fiets.png">
     </div>
   </section>
+  <script src="main.js"></script>
 </html>

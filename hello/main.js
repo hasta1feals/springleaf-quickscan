@@ -3,8 +3,8 @@
 function login() {
   // Fetch data from html
   data = {
-    password: getValue("password"),
-    username: getValue("title"),
+    password: getValue("password1"),
+    username: getValue("email1"),
   };
   // Submit data to API
 
@@ -94,7 +94,7 @@ function Userinfo() {
 document.addEventListener("DOMContentLoaded", function () {
   connectButton("my-button1", Userinfo);
   connectButton("my-button", login);
-  connectButton("my-buttonRegisteren", createPost);
+  connectButton("loginButton", login);
 
 
 });
