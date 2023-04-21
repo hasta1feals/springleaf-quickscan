@@ -242,21 +242,27 @@ app.post('/emailSend', (req, res) => {
 `;
 //dit is de header van de email
 const htmlString = `
-<header style="display: flex; width: 1000px; height:80px;
+
+
+    <header style="display: flex; width: 640px; height:80px;
     background-color: black;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     padding-left: 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    padding: 10px 0 10px 10px;">
-        <div href="index.html" class="logo">
-            <img src="cid:rsz_rsz_logo" style="display: flex;
+    margin: 0 auto;">
+    <div href="index.html" class="logo">
+    <img src="cid:rsz_rsz_logo" style="display: flex;
             align-items: center;
             padding: 15;
-            margin-left: 9%;" width=""></img>
-        </div>
-        <p>${x}</p>
-    </header>
+            margin-left: 9%;"></img>
+    </div>     
+</header>
+<body>
+    <div class="mail-container" style="display: flex; background-color: gray; align-items: center; margin: 0 auto; width: 640px; padding-bottom:400px ;">
+    <p>${x}</p>
+    </div>   
+</body>
 `;
 //dit is de body van de email
 const emailBody = `
