@@ -97,7 +97,7 @@ getNewQuestion = () => {
 
     //go to the end page
 
-    return window.location.assign("../client/summary.html");
+    return window.location.assign("summary.html");
   }
 
   currentQuestion = availableQuesions[questionCounter];
