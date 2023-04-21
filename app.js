@@ -225,8 +225,8 @@ app.post("/email", (req, res) => {
 app.post('/emailSend', (req, res) => {
 
   const email = req.body.email;
-  const html = req.body.html;
-//dit is de setting voor de smtp server van gmail
+  const x = req.body.x;
+  
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -235,12 +235,54 @@ app.post('/emailSend', (req, res) => {
     }
   });
 
+
+
+  const cssString = `
+
+`;
+//dit is de header van de email
+const htmlString = `
+<header style="display: flex; width: 1000px; height:80px;
+    background-color: black;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    padding: 10px 0 10px 10px;">
+        <div href="index.html" class="logo">
+            <img src="cid:rsz_rsz_logo" style="display: flex;
+            align-items: center;
+            padding: 15;
+            margin-left: 9%;" width=""></img>
+        </div>
+        <p>${x}</p>
+    </header>
+`;
+//dit is de body van de email
+const emailBody = `
+  <style>${cssString}</style>
+  ${htmlString}
+`;
 //dit is de email die verstuurd wordt
   let mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Hello from Node.js',
-    html: html
+    subject: 'Springleaf Quickscan',
+    html: emailBody, // Pass the combined HTML and CSS string
+    html: `
+    <html>
+      <body>
+        ${htmlString}
+      </body>
+    </html>
+  `,
+  ///dit is de afbeelding die in de email komt
+  attachments: [{
+    filename: 'logo.jpg',
+    path: `client/img/rsz_rsz_logo.png`,
+    cid: 'rsz_rsz_logo' // same cid value as in the html img src
+  }]
+ 
   };
 
   //verstuurd de email met de gegevens van hierboven en laat de fouten ook zien!
