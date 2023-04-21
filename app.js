@@ -1,6 +1,7 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
 require("dotenv").config();
 const app = express();
 const db = new sqlite3.Database("database.db");
@@ -219,6 +220,40 @@ app.post("/email", (req, res) => {
     }
   });
 });
+
+
+app.post('/emailSend', (req, res) => {
+  const email = req.body.email;
+//dit is de setting voor de smtp server van gmail
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+
+//dit is de email die verstuurd wordt
+  let mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Hello from Node.js',
+    html: '<button>This is a test email sent from Node.js</button>'
+  };
+
+  //verstuurd de email met de gegevens van hierboven en laat de fouten ook zien!
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Failed to send email' });
+    } else {
+      console.log('Email sent: ' + info.response);
+      return res.status(200).json({ message: 'success' });
+    }
+  });
+});
+
+
 
 app.put("/users/:id", (req, res) => {
   const { name, email } = req.body;
