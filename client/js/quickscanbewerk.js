@@ -14,6 +14,30 @@ function getUsers() {
   });
 }
 
+
+
+
+function sendEmail(Quser_email) {
+
+  
+  data = {
+    email: emailArray.toString,
+    x: "test",
+  };
+  console.log(emailArray)
+
+  return api("emailSend", "POST", data).then((res) => {
+    if (res.message == "success") {
+    console.log("het is verstuurd")
+    }
+  });
+
+
+
+
+
+
+}
 getUsers().then(() => {
   var email_id = myArray.toString(); // Convert myArray to a string
   console.log(email_id); // The string representation of myArray
@@ -30,13 +54,13 @@ getUsers().then(() => {
   api("getQuser", "POST", data).then((res) => {
     console.log(res[0].email);
     Quser_email = res[0].email;
-   emailArray.push(Quser_email);
+   emailArray.push(res[0].email);
     
     displayQuser(Quser_email);
   })
 
 });
-
+console.log("dadadada"+emailArray);
 function displayQuser(Quser_email){
 
   const Quser = document.getElementById("Quser");
@@ -44,7 +68,8 @@ function displayQuser(Quser_email){
   Quser.innerText = Quser_email;
 
 }
-console.log(emailArray);
+
+// console.log(email)
 function displayUserQa(UserQa){
 const question1 = document.getElementById("question1");
 const question2 = document.getElementById("question2");
@@ -71,6 +96,24 @@ ChAnswer4.innerText = UserQa.selectedAnswer4;
 ChAnswer5.innerText = UserQa.selectedAnswer5;
 
 }
+
+
+function connectButton(id, event) {
+  let element = document.getElementById(id);
+  if (element) {
+    element.addEventListener("click", event);
+  }
+
+}//you can add all the buttons you want to connect to the api or button functions
+document.addEventListener("DOMContentLoaded", function () {
+  connectButton("button-summary", sendEmail);
+});
+
+const submitHandler = async (event) => {
+  event.preventDefault()
+  console.log("submit")
+}
+
 
 
 //api function to get infro from the server to frontend

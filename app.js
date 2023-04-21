@@ -182,7 +182,7 @@ app.post("/register", (req, res) => {
       [username, hashedPassword, name],
       function (err) {
         if (err) {
-          return res.status(500).json({ error: "Error creating user" });console
+          return res.status(500).json({ error: "Error creating user" });
         }
         res.json({ message: "success" });
       }
@@ -190,55 +190,86 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/email", (req, res) => {
-  // get user data from request body
-  let email = [req.body.email];
+// app.post("/email", (req, res) => {
+//   // get user data from request body
+//   let email = [req.body.email];
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Validate the email address
-  if (!emailRegex.test(email)) {
-    res.status(400).json({ message: "Invalid email address." });
-    return;
-  }
-  const qry = "Select id from email Where email = ?";
-  db.get(qry, [email], (err, user) => {
-    console.log(err);
-    console.log(user)
-    if (user) {
-      // Print the error object to the console
-      return res.status(500).json({ message: "Error while fetching user from the database" });
-    }else{
-      return res.status(200).json({ message: "Email already exists" });
+//   // Validate the email address
+//   if (!emailRegex.test(email)) {
+//     res.status(400).json({ message: "Invalid email address." });
+//     return;
+//   }
+//   const qry = "Select id from email Where email = ?";
+//   db.get(qry, [email], (err, user) => {
+//     console.log(err);
+//     console.log(user)
+//     if (user) {
+//       // Print the error object to the console
+//       return res.status(500).json({ message: "Error while fetching user from the database" });
+//     }else{
+//       return res.status(200).json({ message: "Email already exists" });
 
-      // let params = [req.body.email];
-      // let qry2 = `INSERT INTO "email"
-      // (email)
-      // VALUES (?)`;
-      // db.run(qry2, params, function (err) {
-      //   if (err) {
+//       let params = [req.body.email];
+//       let qry2 = `INSERT INTO "email"
+//       (email)
+//       VALUES (?)`;
+//       db.run(qry2, params, function (err) {
+//         if (err) {
         
-      //     res
-      //       .status(500)
-      //       .json({ message: "Error inserting email address into database" });
-      //   } else {
-      //     console.log(`Inserted email address ${email} into database`);
-      //     res
-      //       .status(201)
-      //       .json({ message: "Email address received and stored." });
-      //        // Create JWT
+//           res
+//             .status(500)
+//             .json({ message: "Error inserting email address into database" });
+//         } else {
+//           console.log(`Inserted email address ${email} into database`);
+//           res
+//             .status(201)
+//             .json({ message: "Email address received and stored." });
+//              // Create JWT
       // const token = jwt.sign({ email }, secret, { expiresIn: "1h" });
       // return res.status(200).json({ token: ` ${token}`, message: "success" });
-      //   }
-      // });
-    } 
+//         }
+//       });
+//     } 
      
-    }
+//     }
     
 
-  )});
+//   )});
 
+app.post("/email", (req, res) => {
+  const email = req.body.email; // Get email from request body
 
+  // Select email from database
+  const qry = "SELECT id FROM email WHERE email = ?";
+  db.get(qry, [email], (err, row) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error while fetching email from the database" });
+    }
+
+    if (row) {
+      // Email found in database, return success response
+      // return res.status(200).json({ message: "Email found in the database", email: row.email });
+      const token = jwt.sign({ email }, secret, { expiresIn: "1h" });
+      return res.status(200).json({ token: ` ${token}`, message:"Email found in the database", email: row.email });
+    } else {
+      // Email not found in database, insert new email
+      const insertQry = "INSERT INTO email (email) VALUES (?)";
+      db.run(insertQry, [email], function(err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Error while inserting new email into the database" });
+        }
+
+        // New email inserted successfully, return success response
+        const token = jwt.sign({ email }, secret, { expiresIn: "1h" });
+      return res.status(200).json({ token: ` ${token}`, message: "New email inserted into the database", email: email });
+      });
+    }
+  });
+});
     
   
 
