@@ -223,7 +223,9 @@ app.post("/email", (req, res) => {
 
 
 app.post('/emailSend', (req, res) => {
+
   const email = req.body.email;
+  const html = req.body.html;
 //dit is de setting voor de smtp server van gmail
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -238,7 +240,7 @@ app.post('/emailSend', (req, res) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Hello from Node.js',
-    html: '<button>This is a test email sent from Node.js</button>'
+    html: html
   };
 
   //verstuurd de email met de gegevens van hierboven en laat de fouten ook zien!
