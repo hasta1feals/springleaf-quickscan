@@ -19,12 +19,12 @@ function getUsers() {
 
 function sendEmail(Quser_email) {
 
-  
+  const myString = emailArray.join(', '); 
   data = {
-    email: emailArray.toString,
-    x: "test",
+    email: myString,
+    x: "eric",
   };
-  console.log(emailArray)
+  console.log(myString)
 
   return api("emailSend", "POST", data).then((res) => {
     if (res.message == "success") {
