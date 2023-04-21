@@ -100,7 +100,6 @@ function getUsers() {
 }
 
 
-
 function emailVal() {
   email = getValue("email");
   let errors = [];
@@ -122,7 +121,7 @@ function emailVal() {
     console.log("het is geluktpa")
     setTimeout(() => {
       window.location.href = 'quickscan.html';
-    }, 500);
+    }, 2000);
   }
 
   // Fetch data from html
@@ -141,32 +140,31 @@ function emailVal() {
   }
   );
 
+  setTimeout(() => {
+    api("emailToken", "POST", data).then((res) => {
+      if (res.message == "success") {
+        // Save the received JWT in a cookie
+        setCookie("token", res.token, 365);
+        console.log("het is gelukt")
+        console.log(res.token)
+        getUsers();
+      }
+    });
+    }, 1000);
 
-  api("emailToken", "POST", data).then((res) => {
-    if (res.message == "success") {
-      // Save the received JWT in a cookie
-      setCookie("token", res.token, 365);
-      console.log("het is gelukt")
-      console.log(res.token)
-      getUsers();
-    }
-  });
+ 
 
 
 
 }
 
+
+
+
 //een delay gevoegd zodat de cookies gelade kunnen worden
 const button = document.querySelector('#start-scan');
 
-// Add a click event listener to the button
-button.addEventListener('click', () => {
 
-  // After 5 seconds, navigate to the new page
-  // setTimeout(() => {
-  //   // window.location.href = 'quickscan.html';
-  // }, 500);
-});
 
 function Userinfo() {
 
@@ -215,6 +213,10 @@ function setCookie(cname, cvalue, exdays) {
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   let expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function deleteCookie(name, domain, path) {
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + domain + "; path=" + path + ";"; // Set expiration date to a past date, specify domain and path
 }
 
 
