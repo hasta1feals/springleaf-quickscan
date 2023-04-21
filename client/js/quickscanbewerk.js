@@ -17,7 +17,7 @@ function getUsers() {
 
 
 
-function sendEmail(Quser_email) {
+function sendEmail() {
 
   const myString = emailArray.join(', '); 
   data = {
