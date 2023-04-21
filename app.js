@@ -1,6 +1,7 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
 require("dotenv").config();
 const app = express();
 const db = new sqlite3.Database("database.db");
@@ -219,6 +220,90 @@ app.post("/email", (req, res) => {
     }
   });
 });
+
+
+app.post('/emailSend', (req, res) => {
+
+  const email = req.body.email;
+  const x = req.body.x;
+  
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+
+
+
+  const cssString = `
+
+`;
+//dit is de header van de email
+const htmlString = `
+
+
+    <header style="display: flex; width: 640px; height:80px;
+    background-color: black;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding-left: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    margin: 0 auto;">
+    <div href="index.html" class="logo">
+    <img src="cid:rsz_rsz_logo" style="display: flex;
+            align-items: center;
+            padding: 15;
+            margin-left: 9%;"></img>
+    </div>     
+</header>
+<body>
+    <div class="mail-container" style="display: flex; background-color: gray; align-items: center; margin: 0 auto; width: 640px; padding-bottom:400px ;">
+    <p>${x}</p>
+    </div>   
+</body>
+`;
+//dit is de body van de email
+const emailBody = `
+  <style>${cssString}</style>
+  ${htmlString}
+`;
+//dit is de email die verstuurd wordt
+  let mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Springleaf Quickscan',
+    html: emailBody, // Pass the combined HTML and CSS string
+    html: `
+    <html>
+      <body>
+        ${htmlString}
+      </body>
+    </html>
+  `,
+  ///dit is de afbeelding die in de email komt
+  attachments: [{
+    filename: 'logo.jpg',
+    path: `client/img/rsz_rsz_logo.png`,
+    cid: 'rsz_rsz_logo' // same cid value as in the html img src
+  }]
+ 
+  };
+
+  //verstuurd de email met de gegevens van hierboven en laat de fouten ook zien!
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Failed to send email' });
+    } else {
+      console.log('Email sent: ' + info.response);
+      return res.status(200).json({ message: 'success' });
+    }
+  });
+});
+
+
 
 app.put("/users/:id", (req, res) => {
   const { name, email } = req.body;
