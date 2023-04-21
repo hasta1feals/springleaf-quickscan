@@ -37,6 +37,11 @@ let questions = [
     choice2: "Nee",
   },
 ];
+let dataquestion = [];
+api("questions", "GET").then(data => {
+  dataquestion.push(...data);
+});
+console.log(dataquestion)
 
 // Start Quickscan
 startQuickscan = () => {

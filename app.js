@@ -127,6 +127,48 @@ app.post("/qa", (req, res) => {
   );
 });
 
+app.get('/questions', (req, res) => {
+  // Query to retrieve questions and their associated choices
+  const sql = `
+    SELECT questions.question, choices.choice
+    FROM questions
+    INNER JOIN choices ON questions.id = choices.question_id
+  `;
+
+  db.all(sql, [], (err, results) => { 
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve questions' });
+    }
+
+    // Process the results and send them as array of objects response
+    const questions = [];
+    let currentQuestion = null;
+    let currentQuestionObject = null;
+
+    for (const row of results) {
+      if (row.question !== currentQuestion) {
+        if (currentQuestionObject !== null) {
+          questions.push(currentQuestionObject);
+        }
+        currentQuestion = row.question;
+        currentQuestionObject = { question: row.question };
+      }
+      currentQuestionObject[`choice${Object.keys(currentQuestionObject).length}`] = row.choice;
+    }
+
+    // Add the last question object to the array
+    if (currentQuestionObject !== null) {
+      questions.push(currentQuestionObject);
+    }
+
+    res.json(questions);
+  });
+});
+
+
+
+
+
 app.post("/UserQa", (req, res) => {
   const email_id = req.body.email_id; // Parse request body to integer
   // console.log(email_id);

@@ -50,6 +50,7 @@ getUsers().then(() => {
     console.log(UserQa);
 
     displayUserQa(UserQa);
+    bewerkUserQa(UserQa);
   });
   api("getQuser", "POST", data).then((res) => {
     console.log(res[0].email);
@@ -97,6 +98,11 @@ ChAnswer5.innerText = UserQa.selectedAnswer5;
 
 }
 
+function bewerkUserQa(UserQa){
+
+  console.log (UserQa.id);
+  
+}
 
 function connectButton(id, event) {
   let element = document.getElementById(id);
