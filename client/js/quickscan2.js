@@ -46,8 +46,27 @@ startQuickscan = () => {
 
   getUsers().then(() => {
     console.log(myArray.toString());
+    let email_id = myArray.toString();
+    data = {
+      email_id: email_id,
+    };
+    api("getQuser", "POST", data).then((res) => {
+      console.log(res[0].email);
+      Quser_email = res[0].email;
+      
+      displayQuser(Quser_email);
+    })
   });
 };
+
+
+function displayQuser(Quser_email){
+
+  const Quser = document.getElementById("Quser");
+
+  Quser.innerText = Quser_email;
+
+}
 
 var myArray = [];
 function getUsers() {
@@ -61,7 +80,11 @@ function getUsers() {
       myArray.push(res.decoded.email.id);
     }
   });
+  
 }
+console.log(myArray)
+console.log(myArray.toString());
+
 
 getNewQuestion = () => {
   const selectedChoice = document.querySelector(".choice-text.selected");

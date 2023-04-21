@@ -26,6 +26,20 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.post("/getQuser", (req, res) => {
+  const email_id = req.body.email_id; // Parse request body to integer
+  // console.log(email_id);
+  const qry = "SELECT email FROM `email` WHERE id = ?";
+  db.all(qry, email_id, (err, email) => {
+    if (!email_id) {
+      res.status(500).send({ error: "Error fetching email" });
+    } else {
+      res.send(email);
+    }
+  });
+  });
+
+
 const secret = process.env.SECRET_KEY;
 
 app.post("/login", (req, res) => {
@@ -115,7 +129,7 @@ app.post("/qa", (req, res) => {
 
 app.post("/UserQa", (req, res) => {
   const email_id = req.body.email_id; // Parse request body to integer
-  console.log(email_id);
+  // console.log(email_id);
   const qry = "SELECT * FROM `QA` WHERE email_id = ? ORDER by id  DESC ";
   db.all(qry, email_id, (err, rows) => {
     if (!email_id) {

@@ -96,3 +96,11 @@ margin-top: 20px;
     cursor: pointer;
  
 }
+.Qvuser{
+  position: absolute;
+  right: 10%;
+  top: 10%;
+}
+.Quser{
+  font-weight: bold;
+}

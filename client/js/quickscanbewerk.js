@@ -56,9 +56,22 @@ getUsers().then(() => {
 
     displayUserQa(UserQa);
   });
+  api("getQuser", "POST", data).then((res) => {
+    console.log(res[0].email);
+    Quser_email = res[0].email;
+    
+    displayQuser(Quser_email);
+  })
+
 });
 
+function displayQuser(Quser_email){
 
+  const Quser = document.getElementById("Quser");
+
+  Quser.innerText = Quser_email;
+
+}
 function displayUserQa(UserQa){
 const question1 = document.getElementById("question1");
 const question2 = document.getElementById("question2");
